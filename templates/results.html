@@ -8,7 +8,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <style>
         body {
-            background-color: #6FA149;
+            background-color: #add48e;
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 0;
@@ -47,13 +47,15 @@
     </style>
 </head>
 <body>
-    <h1>Reddit Top Posts - Results</h1>
-    <h2>Subreddit: {{ subreddit_name }}</h2>
-    <ul>
-        {% for post in top_posts %}
-            <li class="post-title" data-toggle="modal" data-target="#postModal">{{ post.title }}</li>
-        {% endfor %}
-    </ul>
+    <div class="container">
+        <h1>Reddit Top Posts - Results</h1>
+        <h2>Subreddit: {{ subreddit_name }}</h2>
+        <ul>
+            {% for post in top_posts %}
+                <li class="post-title" data-toggle="modal" data-target="#postModal">{{ post.title }}</li>
+            {% endfor %}
+        </ul>
+    </div>
     <p>Sentiment polarity: {{ sentiment }}</p>
     <p>{{ pol_label }} sentiment</p>
     <p>Sentiment subjectivity: {{ sub }}</p>
