@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reddit Top Posts - Results</title>
+</head>
+<body>
+    <h1>Reddit Top Posts - Results</h1>
+    <h2>Subreddit: {{ subreddit_name }}</h2>
+    <ul>
+        {% for post in top_posts %}
+            <li>{{ post.title }}</li>
+        {% endfor %}
+    </ul>
+    <p>Sentiment polarity: {{sentiment}}</p>
+    <p>{{pol_label}} sentiment</p>
+    <p>Sentiment subjectivity: {{sub}}</p>
+    <p>{{sub_label}}</p>
+</body>
+</html>
