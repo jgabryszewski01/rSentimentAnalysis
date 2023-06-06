@@ -2,13 +2,52 @@
 <html>
 <head>
     <title>Reddit Top Posts</title>
+    <style>
+        .container{
+            max-width: 600px;
+            margin: 0 auto;
+            margin-bottom: 50px;
+        }
+        .tile-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .tile {
+            width: 30%;
+            height: 200px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <h1>Reddit Top Posts</h1>
-    <form method="POST" action="/">
-        <label for="subreddit">Enter subreddit:</label>
-        <input type="text" id="subreddit" name="subreddit" required>
-        <button type="submit">Submit</button>
-    </form>
+    <div class="container">
+        <form method="POST" action="/">
+            <label for="subreddit">Enter subreddit:</label>
+            <input type="text" id="subreddit" name="subreddit" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="tile-container">
+        <div class="tile" onclick="redirectToResults('realmadrid')">Real Madrid</div>
+        <div class="tile" onclick="redirectToResults('Barca')">FC Barcelona</div>
+        <div class="tile" onclick="redirectToResults('PSG')">Paris Saint Germain</div>
+        <div class="tile" onclick="redirectToResults('fcbayern')">Bayern Munich</div>
+        <div class="tile" onclick="redirectToResults('RedDevils')">Manchester United</div>
+        <div class="tile" onclick="redirectToResults('MCFC')">Manchester City</div>
+        <div class="tile" onclick="redirectToResults('LiverpoolFC')">Liverpool FC</div>
+        <div class="tile" onclick="redirectToResults('Gunners')">Arsenal FC</div>
+        <div class="tile" onclick="redirectToResults('chelseafc')">Chelsea FC</div>
+    </div>
+    <script>
+        function redirectToResults(subreddit) {
+            window.location.href = "/results/" + subreddit;
+        }
+    </script>
 </body>
 </html>
