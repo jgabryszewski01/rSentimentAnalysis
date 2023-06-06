@@ -3,24 +3,11 @@
 <head>
     <title>Reddit Top Posts - Results</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <style>
-        body {
-            background-color: #add48e;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-        }
-
-        h1 {
-            color: white;
-        }
-
-        h2 {
-            color: #2E6B10;
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            margin-bottom: 50px;
         }
 
         ul {
@@ -35,18 +22,25 @@
             background-color: whitesmoke;
             padding: 10px;
             border-radius: 5px;
+            cursor: pointer;
         }
 
         li:hover {
             box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
         }
 
-        p {
-            color: #2E6B10;
+        .go-back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
         }
     </style>
 </head>
 <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Reddit Sentiment Analysis</a>
+    </nav>
+
     <div class="container">
         <h1>Reddit Top Posts - Results</h1>
         <h2>Subreddit: {{ subreddit_name }}</h2>
@@ -61,19 +55,24 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="postModalLabel">Choose an option:</h5>
+                    <h5 class="modal-title" id="postModalLabel">What do you want to subject to sentiment analysis?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <button id="postBtn" type="button" class="btn btn-primary">Post</button>
-                    <button id="commentsBtn" type="button" class="btn btn-secondary">Comments</button>
+                    <button id="postBtn" type="button" class="btn btn-primary" >Post</button>
+                    <button id="commentsBtn" type="button" class="btn btn-secondary" >Comments</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <a class="btn btn-primary go-back-button" href="/">Go back</a>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
             var postId;
@@ -81,11 +80,11 @@
                 postId = $(this).data('post-id');
                 $('#postModal').modal('show');
             });
-    
+
             $('#postBtn').click(function() {
                 window.location.href = '/postResults/' + postId;
             });
-    
+
             $('#commentsBtn').click(function() {
                 window.location.href = '/commentsResults/' + postId;
             });
