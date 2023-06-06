@@ -75,7 +75,7 @@ def results(subreddit_name):
                             pol_label=sentiment_pol_label,
                             sub_label=sentiment_sub_label)
 
-# Widok wyników - strona results50.html
+# Widok wyników (50 postów) - strona results50.html
 @app.route('/results50/<subreddit_name>')
 def results50(subreddit_name):
     subreddit = reddit.subreddit(subreddit_name)

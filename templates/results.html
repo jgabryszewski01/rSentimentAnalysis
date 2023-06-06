@@ -82,9 +82,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h2>Sentiment Analysis:</h2>
                     <h4>Sentiment polarity: {{ sentiment }}</h4>
-                    <h4>{{ pol_label }} sentiment</h4>
+                    <h4>{{ pol_label }} sentiment</h4><br>
                     <h4>Sentiment subjectivity: {{ subjectivity }}</h4>
                     <h4>{{ sub_label }}</h4>
                 </div>
@@ -103,6 +102,10 @@
                 $('#postModal').modal('show');
             });
 
+            $('#showSentimentBtn').click(function() {
+                $('#sentimentModal').modal('show');
+            });
+
             $('#postBtn').click(function() {
                 window.location.href = '/postResults/' + postId;
             });
@@ -112,7 +115,8 @@
             });
 
             $('#showMoreBtn').click(function() {
-                window.location.href = '/results50.html' + postId;
+                var subredditName = encodeURIComponent("{{ subreddit_name }}");
+                window.location.href = '/results50/' + subredditName;
             });
         });
     </script>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reddit Top 50 Posts - Results</title>
+    <title>Reddit Top Posts - Results (50 posts)</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         .container {
@@ -28,6 +28,12 @@
         li:hover {
             box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
         }
+        .btn-primary{
+            margin: 10px;
+        }
+        .btn-secondary{
+            margin: 10px;
+        }
     </style>
 </head>
 <body>
@@ -36,7 +42,7 @@
     </nav>
 
     <div class="container">
-        <h1>Reddit Top 50 Posts - Results</h1>
+        <h1>Reddit Top Posts - Results (50 posts)</h1>
         <h2>Subreddit: {{ subreddit_name }}</h2>
         <ul>
             {% for post in top_posts %}
@@ -75,9 +81,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <h2>Sentiment Analysis:</h2>
                     <h4>Sentiment polarity: {{ sentiment }}</h4>
-                    <h4>{{ pol_label }} sentiment</h4>
+                    <h4>{{ pol_label }} sentiment</h4><br>
                     <h4>Sentiment subjectivity: {{ subjectivity }}</h4>
                     <h4>{{ sub_label }}</h4>
                 </div>
@@ -96,12 +101,20 @@
                 $('#postModal').modal('show');
             });
 
+            $('#showSentimentBtn').click(function() {
+                $('#sentimentModal').modal('show');
+            });
+
             $('#postBtn').click(function() {
                 window.location.href = '/postResults/' + postId;
             });
 
             $('#commentsBtn').click(function() {
                 window.location.href = '/commentsResults/' + postId;
+            });
+
+            $('#showSentimentBtn').click(function() {
+                window.location.href = '/resultsSentiment/' + postId;
             });
         });
     </script>
