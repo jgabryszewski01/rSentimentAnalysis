@@ -15,5 +15,6 @@
 - REQ-1	| Analiza sentymentu |	Aplikacja powinna umożliwiać analizę sentymentu komentarzy i postów z serwisu www.reddit.com	| 1 |	Funkcjonalne
 - REQ-2	| Prezentacja wyników |	Aplikacja powinna prezentować wyniki analizy sentymentu. | 1	| Funkcjonalne
 - REQ-3	| Integracja z serwisem |	Aplikacja powinna umożliwiać pobieranie komentarzy i postów z serwisu www.reddit.com |	1	| Funkcjonalne
-- REQ-4	| Podiał postu według kryteriów	| Aplikacja powinna umożliwiać wyciągnięcie z tekstu paragrafów/tytułów lub zdjęć |	2	| Funkcjonalne
-- REQ-4	| Obsługa błędów	| Aplikacja powinna wyświetlać czytelne komunikaty błędów w przypadku wystąpienia problemów z działaniem aplikacji. |	2	| Poza funkcjonalne
+- REQ-4	| wyświetlanie naz klubów	| Aplikacja powinna wyświetlać nazwy popularnych klubów w formie przycisków które będą do wyboru. Ułatwi to działania użytkownika i pozwoli oszczędzić jego czas  |	1	| Funkcjonalne
+- REQ-5	| Podiał postu według kryteriów	| Aplikacja powinna umożliwiać wyciągnięcie z tekstu paragrafów/tytułów lub zdjęć |	2	| Funkcjonalne
+- REQ-6	| Obsługa błędów	| Aplikacja powinna wyświetlać czytelne komunikaty błędów w przypadku wystąpienia problemów z działaniem aplikacji. |	2	| Poza funkcjonalne
