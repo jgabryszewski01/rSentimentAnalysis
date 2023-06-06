@@ -28,11 +28,11 @@
         li:hover {
             box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
         }
-
-        .go-back-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
+        .btn-primary{
+            margin: 10px;
+        }
+        .btn-secondary{
+            margin: 10px;
         }
     </style>
 </head>
@@ -49,6 +49,10 @@
                 <li class="post-title" data-post-id="{{ post.id }}">{{ post.title }}</li>
             {% endfor %}
         </ul>
+        <div style="display: flex; justify-content: center; margin-top: 20px;">
+            <button class="btn btn-primary" id="showMoreBtn">Show more</button>
+            <button class="btn btn-primary" id="showSentimentBtn">Show sentiment for top 10 posts</button>
+        </div>
     </div>
 
     <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
@@ -68,7 +72,25 @@
         </div>
     </div>
 
-    <a class="btn btn-primary go-back-button" href="/">Go back</a>
+    <div class="modal fade" id="sentimentModal" tabindex="-1" role="dialog" aria-labelledby="sentimentModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sentimentModalLabel">Sentiment Analysis</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h2>Sentiment Analysis:</h2>
+                    <h4>Sentiment polarity: {{ sentiment }}</h4>
+                    <h4>{{ pol_label }} sentiment</h4>
+                    <h4>Sentiment subjectivity: {{ subjectivity }}</h4>
+                    <h4>{{ sub_label }}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
@@ -87,6 +109,10 @@
 
             $('#commentsBtn').click(function() {
                 window.location.href = '/commentsResults/' + postId;
+            });
+
+            $('#showMoreBtn').click(function() {
+                window.location.href = '/results50.html' + postId;
             });
         });
     </script>
