@@ -3,6 +3,9 @@
 <head>
     <title>Reddit Top Posts</title>
     <style>
+        body {
+            background-color: #6FA149; 
+        }
         .container{
             max-width: 600px;
             margin: 0 auto;
@@ -13,6 +16,10 @@
             flex-wrap: wrap;
             justify-content: space-between;
         }
+        .search-content{
+            position: absolute;
+            left: 45%;
+        }
         .tile {
             width: 30%;
             height: 200px;
@@ -22,17 +29,31 @@
             text-align: center;
             cursor: pointer;
         }
+        button {
+        margin-top: 10px;
+        background-color: #2E6B10; 
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        }
+        button:hover {
+        box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3); 
+        }
     </style>
 </head>
 <body>
+    <div class="content">
+        <br><br><br><br><br><br><br><br><br><br>
+<div class="search-content">
     <h1>Reddit Top Posts</h1>
-    <div class="container">
-        <form method="POST" action="/">
-            <label for="subreddit">Enter subreddit:</label>
-            <input type="text" id="subreddit" name="subreddit" required>
-            <button type="submit">Submit</button>
-        </form>
-    </div>
+    
+    <form method="POST" action="/">
+        <label for="subreddit">Enter subreddit:</label>
+        <input type="text" id="subreddit" name="subreddit" required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</div>
     <div class="tile-container">
         <div class="tile" onclick="redirectToResults('realmadrid')">Real Madrid</div>
         <div class="tile" onclick="redirectToResults('Barca')">FC Barcelona</div>
@@ -43,6 +64,7 @@
         <div class="tile" onclick="redirectToResults('LiverpoolFC')">Liverpool FC</div>
         <div class="tile" onclick="redirectToResults('Gunners')">Arsenal FC</div>
         <div class="tile" onclick="redirectToResults('chelseafc')">Chelsea FC</div>
+    </div>
     </div>
     <script>
         function redirectToResults(subreddit) {
