@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reddit Top Comments - Results</title>
+    <title>Comments Results</title>
 </head>
 <body>
-    <h1>Reddit Top Comments - Results</h1>
-    <h2>Post ID: {{ post.id }}</h2>
-    <h3>Average Sentiment: {{ avg_sentiment }}</h3>
-    <p>Sentiment Label: {{ sentiment_label }}</p>
+    <div class="container">
+        <h1>Comments Results</h1>
+        <h2>Post title: {{ post_title }}</h2>
+        <h2>Post ID: {{ post_id }}</h2>
+        
+        <h3>Sentiment Analysis:</h3>
+        <p>Sentiment polarity: {{ sentiment }}</p>
+        <p>{{ pol_label }} sentiment</p>
+        <p>Sentiment subjectivity: {{ subjectivity }}</p>
+        <p>{{ sub_label }}</p>
+    </div>
 </body>
 </html>
