@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify, send_from_directory
 from textblob import TextBlob
 import praw
 
@@ -17,6 +17,10 @@ def index():
         subreddit_name = request.form['subreddit']
         return redirect('/results/' + subreddit_name)
     return render_template('index.html')
+
+@app.route('/images/<path:path>')
+def send_image(path):
+    return send_from_directory('images', path)
 
 # Funkcja pomocnicza do oznaczania etykiet sentymentu
 def get_sentiment_label(sentiment_score):
