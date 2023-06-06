@@ -22,8 +22,8 @@ def index():
 @app.route('/results/<subreddit_name>')
 def results(subreddit_name):
     subreddit = reddit.subreddit(subreddit_name)
-    top_posts = subreddit.top(limit=10)
-    top_posts_r = subreddit.top(limit=10)
+    top_posts = subreddit.hot(limit=10)
+    top_posts_r = subreddit.hot(limit=10)
     post_titles = []
     sentiment_sub_label = ''
     sentiment_pol_label = ''
