@@ -2,18 +2,38 @@
 <html>
 <head>
     <title>Reddit Top Posts - Results</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <body>
     <h1>Reddit Top Posts - Results</h1>
     <h2>Subreddit: {{ subreddit_name }}</h2>
     <ul>
         {% for post in top_posts %}
-            <li>{{ post.title }}</li>
+            <li class="post-title" data-toggle="modal" data-target="#postModal">{{ post.title }}</li>
         {% endfor %}
     </ul>
     <p>Sentiment polarity: {{ sentiment }}</p>
     <p>{{ pol_label }} sentiment</p>
     <p>Sentiment subjectivity: {{ sub }}</p>
     <p>{{ sub_label }}</p>
+    <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="postModalLabel">What do you want to analyze?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <a href="/postResults" class="btn btn-primary">Post</a>
+                    <a href="/commentsResults" class="btn btn-secondary">Comments</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
