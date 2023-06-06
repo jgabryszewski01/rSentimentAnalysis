@@ -21,15 +21,15 @@ def index():
 # Funkcja pomocnicza do oznaczania etykiet sentymentu
 def get_sentiment_label(sentiment_score):
     if sentiment_score < -0.4:
-        return 'negative'
+        return 'Negative'
     elif sentiment_score < -0.1:
-        return 'slightly negative'
+        return 'Slightly negative'
     elif sentiment_score < 0.1:
-        return 'neutral'
+        return 'Neutral'
     elif sentiment_score < 0.35:
-        return 'slightly positive'
+        return 'Slightly positive'
     else:
-        return 'positive'
+        return 'Positive'
 
 # Funkcja pomocnicza do oznaczania etykiet sentymentu
 def get_sub_label(subjectivity_score):
@@ -101,6 +101,10 @@ def post_results(post_id):
     post = reddit.submission(id=post_id)
     post_text = post.selftext
     post_title = post.title
+
+    # Jeśli tekst posta jest pusty, użyj tytułu posta jako post_text
+    if not post_text:
+        post_text = post.title
 
     # Przeprowadź analizę sentymentu
     sentiment_score = TextBlob(post_text).sentiment.polarity
