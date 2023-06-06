@@ -49,10 +49,13 @@ def results(subreddit_name):
     top_posts = subreddit.hot(limit=10)
     top_posts_r = subreddit.hot(limit=10)
     post_titles = []
+
     sentiment_sub_label = ''
     sentiment_pol_label = ''
+
     for post in top_posts_r:
         post_titles.append(post.title)
+    
     post_titles_string = ' '.join(post_titles)
     subjectivity_score = TextBlob(post_titles_string).sentiment.subjectivity
     sentiment_score = TextBlob(post_titles_string).sentiment.polarity
