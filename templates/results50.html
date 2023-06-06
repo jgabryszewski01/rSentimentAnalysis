@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reddit Top 50 Posts - Results</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            margin-bottom: 50px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        li {
+            margin-bottom: 10px;
+            background-color: whitesmoke;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        li:hover {
+            box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Reddit Sentiment Analysis</a>
+    </nav>
+
+    <div class="container">
+        <h1>Reddit Top 50 Posts - Results</h1>
+        <h2>Subreddit: {{ subreddit_name }}</h2>
+        <ul>
+            {% for post in top_posts %}
+                <li class="post-title" data-post-id="{{ post.id }}">{{ post.title }}</li>
+            {% endfor %}
+        </ul>
+        <div style="display: flex; justify-content: center; margin-top: 20px;">
+            <button class="btn btn-primary" id="showSentimentBtn">Show sentiment for top 50 posts</button>
+        </div>
+    </div>
+
+    <div class="modal fade" id="postModal" tabindex="-1" role="dialog" aria-labelledby="postModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="postModalLabel">What do you want to subject to sentiment analysis?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <button id="postBtn" type="button" class="btn btn-primary" >Post</button>
+                    <button id="commentsBtn" type="button" class="btn btn-secondary" >Comments</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="sentimentModal" tabindex="-1" role="dialog" aria-labelledby="sentimentModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="sentimentModalLabel">Sentiment Analysis</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h2>Sentiment Analysis:</h2>
+                    <h4>Sentiment polarity: {{ sentiment }}</h4>
+                    <h4>{{ pol_label }} sentiment</h4>
+                    <h4>Sentiment subjectivity: {{ subjectivity }}</h4>
+                    <h4>{{ sub_label }}</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.2/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var postId;
+            $('.post-title').click(function() {
+                postId = $(this).data('post-id');
+                $('#postModal').modal('show');
+            });
+
+            $('#postBtn').click(function() {
+                window.location.href = '/postResults/' + postId;
+            });
+
+            $('#commentsBtn').click(function() {
+                window.location.href = '/commentsResults/' + postId;
+            });
+        });
+    </script>
+</body>
+</html>

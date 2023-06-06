@@ -75,6 +75,35 @@ def results(subreddit_name):
                             pol_label=sentiment_pol_label,
                             sub_label=sentiment_sub_label)
 
+# Widok wyników - strona results50.html
+@app.route('/results50/<subreddit_name>')
+def results50(subreddit_name):
+    subreddit = reddit.subreddit(subreddit_name)
+    top_posts = subreddit.hot(limit=50)
+    top_posts_r = subreddit.hot(limit=50)
+    post_titles = []
+
+    sentiment_sub_label = ''
+    sentiment_pol_label = ''
+
+    for post in top_posts_r:
+        post_titles.append(post.title)
+    
+    post_titles_string = ' '.join(post_titles)
+    subjectivity_score = TextBlob(post_titles_string).sentiment.subjectivity
+    sentiment_score = TextBlob(post_titles_string).sentiment.polarity
+
+    sentiment_pol_label = get_sentiment_label(sentiment_score)
+    sentiment_sub_label = get_sub_label(subjectivity_score)
+
+    return render_template('results50.html', 
+                            subreddit_name=subreddit_name,
+                            top_posts=top_posts,
+                            sentiment=round(sentiment_score, 2),
+                            subjectivity=round(subjectivity_score, 2),
+                            pol_label=sentiment_pol_label,
+                            sub_label=sentiment_sub_label)
+
 # Widok komentarzy - strona commentsResults.html
 @app.route('/commentsResults/<post_id>')
 def comments_results(post_id):
@@ -84,12 +113,15 @@ def comments_results(post_id):
 
     sentiment_scores = []
     subjectivity_scores = []
+    comments_text = []
+
     for comment in comments:
         if isinstance(comment, praw.models.Comment):
             sentiment_score = TextBlob(comment.body).sentiment.polarity
             sentiment_scores.append(sentiment_score)
             subjectivity_score = TextBlob(comment.body).sentiment.subjectivity
             subjectivity_scores.append(subjectivity_score)
+            comments_text.append(comment.body)
 
     sentiment_pol_label = get_sentiment_label(sentiment_score)
     sentiment_sub_label = get_sub_label(subjectivity_score)
@@ -100,7 +132,8 @@ def comments_results(post_id):
                             sentiment=round(sentiment_score, 2),
                             subjectivity=round(subjectivity_score, 2),
                             pol_label=sentiment_pol_label,
-                            sub_label=sentiment_sub_label)
+                            sub_label=sentiment_sub_label,
+                            comments_text=comments_text)
 
 @app.route('/postResults/<post_id>')
 def post_results(post_id):
