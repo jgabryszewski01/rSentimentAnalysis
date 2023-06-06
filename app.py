@@ -23,10 +23,11 @@ def index():
 def results(subreddit_name):
     subreddit = reddit.subreddit(subreddit_name)
     top_posts = subreddit.top(limit=10)
+    top_posts_r = subreddit.top(limit=10)
     post_titles = []
     sentiment_sub_label = ''
     sentiment_pol_label = ''
-    for post in top_posts:
+    for post in top_posts_r:
         post_titles.append(post.title)
     post_titles_string = ' '.join(post_titles)
     subjectivity_score = TextBlob(post_titles_string).sentiment.subjectivity
@@ -53,7 +54,8 @@ def results(subreddit_name):
         sentiment_sub_label = 'Highly subjective titles'
 
     return render_template('results.html', 
-                            subreddit_name=subreddit_name, top_posts=top_posts,
+                            subreddit_name=subreddit_name,
+                            top_posts=top_posts,
                             sentiment = round(sentiment_score, 2),
                             sub = round(subjectivity_score, 2),
                             pol_label = sentiment_pol_label,
