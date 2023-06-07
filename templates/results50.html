@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reddit Top Posts - Results</title>
+    <title>Reddit Top Posts - Results (50 posts)</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
         .container {
@@ -52,7 +52,7 @@
     </nav>
 
     <div class="container">
-        <h1>Reddit Top Posts - Results</h1>
+        <h1>Reddit Top Posts - Results (50 posts)</h1>
         <h2>Subreddit: {{ subreddit_name }}</h2>
         <ul>
             {% for post in top_posts %}
@@ -60,8 +60,7 @@
             {% endfor %}
         </ul>
         <div style="display: flex; justify-content: center; margin-top: 20px;">
-            <button class="btn btn-primary" id="showMoreBtn">Show more</button>
-            <button class="btn btn-primary" id="showSentimentBtn">Show sentiment for top 10 posts</button>
+            <button class="btn btn-primary" id="showSentimentBtn">Show sentiment for top 50 posts</button>
         </div>
     </div>
 

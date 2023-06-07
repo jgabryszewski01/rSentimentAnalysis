@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reddit Top Posts</title>
+    <title>Reddit Sentiment Analysis</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
-        body {
-            background-color: #add48e; 
-        }
-        .container{
-            max-width: 600px;
+        .container {
+            max-width: 900px;
             margin: 0 auto;
             margin-bottom: 50px;
+            text-align: center;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
+
         .tile-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-between;
         }
-        .search-content{
-            position: absolute;
-            left: 45%;
-        }
+
         .tile {
             width: 30%;
             height: 200px;
@@ -28,40 +30,72 @@
             padding: 20px;
             text-align: center;
             cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
+
         button {
-        margin-top: 10px;
-        background-color: #9dbbc0; 
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
         }
+
         button:hover {
-        box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3); 
+            box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
 <body>
-    <h1>Reddit Top Posts</h1>
-    <div class="search-content"></div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Reddit Sentiment Analysis</a>
+    </nav>
+
+    <div class="container">
+        <h1>Reddit Sentiment Analysis</h1>
+        <div class="search-content"></div>
         <form method="POST" action="/">
-            <label for="subreddit">Enter subreddit:</label>
-            <input type="text" id="subreddit" name="subreddit" required>
+            <input type="text" id="subreddit" name="subreddit" required placeholder="Enter subreddit">
             <br>
-            <button type="submit">Submit</button>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
-    <div class="tile-container">
-        <div class="tile" onclick="redirectToResults('realmadrid')">Real Madrid</div>
-        <div class="tile" onclick="redirectToResults('Barca')">FC Barcelona</div>
-        <div class="tile" onclick="redirectToResults('PSG')">Paris Saint Germain</div>
-        <div class="tile" onclick="redirectToResults('fcbayern')">Bayern Munich</div>
-        <div class="tile" onclick="redirectToResults('RedDevils')">Manchester United</div>
-        <div class="tile" onclick="redirectToResults('MCFC')">Manchester City</div>
-        <div class="tile" onclick="redirectToResults('LiverpoolFC')">Liverpool FC</div>
-        <div class="tile" onclick="redirectToResults('Gunners')">Arsenal FC</div>
-        <div class="tile" onclick="redirectToResults('chelseafc')">Chelsea FC</div>
+
+    <div class="container">
+        <div class="tile-container">
+            <div class="tile" onclick="redirectToResults('realmadrid')">
+                Real Madrid<br>
+                <img src="/images/realmadrid.png" alt="Real Madrid" height="130px">
+            </div>
+            <div class="tile" onclick="redirectToResults('Barca')">FC Barcelona<br>
+                <img src="/images/fcbarcelona.png" alt="FC Barcelona" height="110px">
+            </div>
+            <div class="tile" onclick="redirectToResults('PSG')">Paris Saint Germain<br>
+                <img src="/images/psg.png" alt="Paris Saint Germain" height="100px">
+            </div>
+            <div class="tile" onclick="redirectToResults('fcbayern')">Bayern Munich<br>
+                <img src="/images/fcbayern.png" alt="Bayern Munich" height="100px">
+            </div>
+            <div class="tile" onclick="redirectToResults('RedDevils')">Manchester United<br>
+                <img src="/images/manutd.jpg" alt="Manchester United" height="100px">
+            </div>
+            <div class="tile" onclick="redirectToResults('MCFC')">Manchester City<br>
+                <img src="/images/mancity.png" alt="Manchester City" height="100px">
+            </div>
+            <div class="tile" onclick="redirectToResults('LiverpoolFC')">Liverpool FC<br>
+                <img src="/images/live.png" alt="Liverpool FC" height="100px">
+            </div>
+            <div class="tile" onclick="redirectToResults('Gunners')">Arsenal FC<br>
+                <img src="/images/arsenal.png" alt="Arsenal FC" height="100px">
+            </div>
+            <div class="tile" onclick="redirectToResults('chelseafc')">Chelsea FC<br>
+                <img src="/images/chelsea.png" alt="Chelsea FC" height="100px">
+            </div>
+        </div>
     </div>
+
     <script>
         function redirectToResults(subreddit) {
             window.location.href = "/results/" + subreddit;

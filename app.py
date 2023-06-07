@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify, send_from_directory
 from textblob import TextBlob
 import praw
 
@@ -18,6 +18,34 @@ def index():
         return redirect('/results/' + subreddit_name)
     return render_template('index.html')
 
+@app.route('/images/<path:path>')
+def send_image(path):
+    return send_from_directory('images', path)
+
+# Funkcja pomocnicza do oznaczania etykiet sentymentu
+def get_sentiment_label(sentiment_score):
+    if sentiment_score < -0.4:
+        return 'Negative'
+    elif sentiment_score < -0.1:
+        return 'Slightly negative'
+    elif sentiment_score < 0.1:
+        return 'Neutral'
+    elif sentiment_score < 0.35:
+        return 'Rather positive'
+    else:
+        return 'Positive'
+
+# Funkcja pomocnicza do oznaczania etykiet sentymentu
+def get_sub_label(subjectivity_score):
+    if subjectivity_score < 0.08:
+        return 'Objective'
+    elif subjectivity_score < 0.35:
+         return 'Not very subjective'
+    elif subjectivity_score < 0.66:
+        return 'Moderly subjective'
+    else:
+        return 'Highly subjective'
+    
 # Widok wyników - strona results.html
 @app.route('/results/<subreddit_name>')
 def results(subreddit_name):
@@ -25,112 +53,116 @@ def results(subreddit_name):
     top_posts = subreddit.hot(limit=10)
     top_posts_r = subreddit.hot(limit=10)
     post_titles = []
+
     sentiment_sub_label = ''
     sentiment_pol_label = ''
+
     for post in top_posts_r:
         post_titles.append(post.title)
+    
     post_titles_string = ' '.join(post_titles)
     subjectivity_score = TextBlob(post_titles_string).sentiment.subjectivity
     sentiment_score = TextBlob(post_titles_string).sentiment.polarity
 
-    if sentiment_score < -0.4:
-        sentiment_pol_label = 'negative'
-    elif sentiment_score < -0.1:
-        sentiment_pol_label = 'slightly negative'
-    elif sentiment_score < 0.1:
-        sentiment_pol_label = 'neutral'
-    elif sentiment_score < 0.35:
-        sentiment_pol_label = 'slightly positive'
-    else:
-        sentiment_pol_label = 'positive'
-
-    if subjectivity_score < 0.08:
-        sentiment_sub_label = 'Objective titles'
-    elif subjectivity_score < 0.35:
-         sentiment_sub_label = 'Not very subjective titles'
-    elif subjectivity_score < 0.66:
-        sentiment_sub_label = 'Moderly subjective titles'
-    else:
-        sentiment_sub_label = 'Highly subjective titles'
+    sentiment_pol_label = get_sentiment_label(sentiment_score)
+    sentiment_sub_label = get_sub_label(subjectivity_score)
 
     return render_template('results.html', 
                             subreddit_name=subreddit_name,
                             top_posts=top_posts,
-                            sentiment = round(sentiment_score, 2),
-                            sub = round(subjectivity_score, 2),
-                            pol_label = sentiment_pol_label,
-                            sub_label = sentiment_sub_label)
+                            sentiment=round(sentiment_score, 2),
+                            subjectivity=round(subjectivity_score, 2),
+                            pol_label=sentiment_pol_label,
+                            sub_label=sentiment_sub_label)
+
+# Widok wyników (50 postów) - strona results50.html
+@app.route('/results50/<subreddit_name>')
+def results50(subreddit_name):
+    subreddit = reddit.subreddit(subreddit_name)
+    top_posts = subreddit.hot(limit=50)
+    top_posts_r = subreddit.hot(limit=50)
+    post_titles = []
+
+    sentiment_sub_label = ''
+    sentiment_pol_label = ''
+
+    for post in top_posts_r:
+        post_titles.append(post.title)
+    
+    post_titles_string = ' '.join(post_titles)
+    subjectivity_score = TextBlob(post_titles_string).sentiment.subjectivity
+    sentiment_score = TextBlob(post_titles_string).sentiment.polarity
+
+    sentiment_pol_label = get_sentiment_label(sentiment_score)
+    sentiment_sub_label = get_sub_label(subjectivity_score)
+
+    return render_template('results50.html', 
+                            subreddit_name=subreddit_name,
+                            top_posts=top_posts,
+                            sentiment=round(sentiment_score, 2),
+                            subjectivity=round(subjectivity_score, 2),
+                            pol_label=sentiment_pol_label,
+                            sub_label=sentiment_sub_label)
 
 # Widok komentarzy - strona commentsResults.html
-@app.route('/commentsResults/<post_id>')
-def comments_results(post_id):
-    postID = reddit.submission(id=post_id)
-    comments = postID.comments.list()
-    
+@app.route('/commentsResults/<subreddit_name>/<post_id>')
+def comments_results(subreddit_name, post_id):
+    post = reddit.submission(id=post_id)
+    post_title = post.title
+    comments = post.comments.list()
+
     sentiment_scores = []
+    subjectivity_scores = []
+    comments_text = []
+
     for comment in comments:
         if isinstance(comment, praw.models.Comment):
             sentiment_score = TextBlob(comment.body).sentiment.polarity
             sentiment_scores.append(sentiment_score)
-    
-    avg_sentiment = sum(sentiment_scores) / len(sentiment_scores)
-    sentiment_label = ''
+            subjectivity_score = TextBlob(comment.body).sentiment.subjectivity
+            subjectivity_scores.append(subjectivity_score)
+            comments_text.append(comment.body)
 
-    if avg_sentiment < -0.4:
-        sentiment_label = 'negative'
-    elif avg_sentiment < -0.1:
-        sentiment_label = 'slightly negative'
-    elif avg_sentiment < 0.1:
-        sentiment_label = 'neutral'
-    elif avg_sentiment < 0.35:
-        sentiment_label = 'slightly positive'
-    else:
-        sentiment_label = 'positive'
+    sentiment_pol_label = get_sentiment_label(sentiment_score)
+    sentiment_sub_label = get_sub_label(subjectivity_score)
 
-    return render_template('commentsResults.html', 
-                           post=postID, 
-                           avg_sentiment=avg_sentiment, 
-                           sentiment_label=sentiment_label)
+    return render_template('commentsResults.html',
+                           subreddit_name=subreddit_name,
+                            post_id=post_id,
+                            post_title=post_title,
+                            sentiment=round(sentiment_score, 2),
+                            subjectivity=round(subjectivity_score, 2),
+                            pol_label=sentiment_pol_label,
+                            sub_label=sentiment_sub_label,
+                            comments_text=comments_text)
 
-@app.route('/postResults/<post_id>')
-def post_results(post_id):
+@app.route('/postResults/<subreddit_name>/<post_id>')
+def post_results(subreddit_name, post_id):
     # Pobierz tekst postu o danym post_id za pomocą API PRAW
     post = reddit.submission(id=post_id)
     post_text = post.selftext
-    
+    post_title = post.title
+
+    # Jeśli tekst posta jest pusty, użyj tytułu posta jako post_text
+    if not post_text:
+        post_text = post.title
+
     # Przeprowadź analizę sentymentu
     sentiment_score = TextBlob(post_text).sentiment.polarity
     subjectivity_score = TextBlob(post_text).sentiment.subjectivity
 
-    sentiment_pol_label = ''
-    if sentiment_score < -0.4:
-        sentiment_pol_label = 'negative'
-    elif sentiment_score < -0.1:
-        sentiment_pol_label = 'slightly negative'
-    elif sentiment_score < 0.1:
-        sentiment_pol_label = 'neutral'
-    elif sentiment_score < 0.35:
-        sentiment_pol_label = 'slightly positive'
-    else:
-        sentiment_pol_label = 'positive'
+    sentiment_pol_label = get_sentiment_label(sentiment_score)
+    sentiment_sub_label = get_sub_label(subjectivity_score)
 
-    sentiment_sub_label = ''
-    if subjectivity_score < 0.08:
-        sentiment_sub_label = 'Objective titles'
-    elif subjectivity_score < 0.35:
-         sentiment_sub_label = 'Not very subjective titles'
-    elif subjectivity_score < 0.66:
-        sentiment_sub_label = 'Moderly subjective titles'
-    else:
-        sentiment_sub_label = 'Highly subjective titles'
-
-    return render_template('postResults.html', 
-                           post_id=post_id, 
-                           post_text=post_text, 
-                           sentiment=sentiment_score, 
-                           pol_label=sentiment_pol_label, 
-                           subjectivity=subjectivity_score, 
-                           sub_label=sentiment_sub_label)
+    return render_template('postResults.html',
+                            subreddit_name=subreddit_name,
+                            post_id=post_id,
+                            post_title=post_title,
+                            post_text=post_text,
+                            sentiment=round(sentiment_score, 2),
+                            subjectivity=round(subjectivity_score, 2),
+                            pol_label=sentiment_pol_label,
+                            sub_label=sentiment_sub_label)
 
 if __name__ == '__main__':
     app.run(debug=True)
