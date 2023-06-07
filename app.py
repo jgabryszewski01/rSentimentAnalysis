@@ -31,7 +31,7 @@ def get_sentiment_label(sentiment_score):
     elif sentiment_score < 0.1:
         return 'Neutral'
     elif sentiment_score < 0.35:
-        return 'Slightly positive'
+        return 'Rather positive'
     else:
         return 'Positive'
 
@@ -105,8 +105,8 @@ def results50(subreddit_name):
                             sub_label=sentiment_sub_label)
 
 # Widok komentarzy - strona commentsResults.html
-@app.route('/commentsResults/<post_id>')
-def comments_results(post_id):
+@app.route('/commentsResults/<subreddit_name>/<post_id>')
+def comments_results(subreddit_name, post_id):
     post = reddit.submission(id=post_id)
     post_title = post.title
     comments = post.comments.list()
@@ -127,6 +127,7 @@ def comments_results(post_id):
     sentiment_sub_label = get_sub_label(subjectivity_score)
 
     return render_template('commentsResults.html',
+                           subreddit_name=subreddit_name,
                             post_id=post_id,
                             post_title=post_title,
                             sentiment=round(sentiment_score, 2),
@@ -135,8 +136,8 @@ def comments_results(post_id):
                             sub_label=sentiment_sub_label,
                             comments_text=comments_text)
 
-@app.route('/postResults/<post_id>')
-def post_results(post_id):
+@app.route('/postResults/<subreddit_name>/<post_id>')
+def post_results(subreddit_name, post_id):
     # Pobierz tekst postu o danym post_id za pomocą API PRAW
     post = reddit.submission(id=post_id)
     post_text = post.selftext
@@ -154,13 +155,14 @@ def post_results(post_id):
     sentiment_sub_label = get_sub_label(subjectivity_score)
 
     return render_template('postResults.html',
-                           post_id=post_id,
-                           post_title=post_title,
-                           post_text=post_text,
-                           sentiment=sentiment_score,
-                           pol_label=sentiment_pol_label,
-                           subjectivity=subjectivity_score,
-                           sub_label=sentiment_sub_label)
+                            subreddit_name=subreddit_name,
+                            post_id=post_id,
+                            post_title=post_title,
+                            post_text=post_text,
+                            sentiment=round(sentiment_score, 2),
+                            subjectivity=round(subjectivity_score, 2),
+                            pol_label=sentiment_pol_label,
+                            sub_label=sentiment_sub_label)
 
 if __name__ == '__main__':
     app.run(debug=True)

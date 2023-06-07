@@ -34,6 +34,16 @@
         .btn-secondary{
             margin: 10px;
         }
+        .pol-label {font-weight: bold;}
+        .pol-label.Negative {color: red;}
+        .pol-label.Slightly {color: rgb(85, 60, 60);}
+        .pol-label.Rather {color: rgb(62, 87, 67);}
+        .pol-label.Positive {color: green;}
+        .sub-label {font-weight: bold;}
+        .sub-label.Highly {color: red;}
+        .sub-label.Moderly {color: rgb(85, 60, 60);}
+        .sub-label.Not {color: rgb(62, 87, 67);}
+        .sub-label.Objective {color: green;}
     </style>
 </head>
 <body>
@@ -82,9 +92,9 @@
                 </div>
                 <div class="modal-body">
                     <h4>Sentiment polarity: {{ sentiment }}</h4>
-                    <h4>{{ pol_label }} sentiment</h4><br>
+                    <h4><span class="pol-label {{ pol_label }}">{{ pol_label }}</span> sentiment</h4><br>
                     <h4>Sentiment subjectivity: {{ subjectivity }}</h4>
-                    <h4>{{ sub_label }}</h4>
+                    <h4><span class="sub-label {{ sub_label }}">{{ sub_label }}</span></h4>
                 </div>
             </div>
         </div>
@@ -100,21 +110,24 @@
                 postId = $(this).data('post-id');
                 $('#postModal').modal('show');
             });
-
+    
             $('#showSentimentBtn').click(function() {
                 $('#sentimentModal').modal('show');
             });
-
+    
             $('#postBtn').click(function() {
-                window.location.href = '/postResults/' + postId;
+                var subredditName = encodeURIComponent('{{ subreddit_name }}');
+                window.location.href = '/postResults/' + subredditName + '/' + postId;
             });
-
+    
             $('#commentsBtn').click(function() {
-                window.location.href = '/commentsResults/' + postId;
+                var subredditName = encodeURIComponent('{{ subreddit_name }}');
+                window.location.href = '/commentsResults/' + subredditName + '/' + postId;
             });
-
-            $('#showSentimentBtn').click(function() {
-                window.location.href = '/resultsSentiment/' + postId;
+    
+            $('#showMoreBtn').click(function() {
+                var subredditName = encodeURIComponent('{{ subreddit_name }}');
+                window.location.href = '/results50/' + subredditName;
             });
         });
     </script>
