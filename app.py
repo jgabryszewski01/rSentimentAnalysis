@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, jsonify, send_from_
 from textblob import TextBlob
 import praw
 
-# Inicjalizacja aplikacji Flask
 app = Flask(__name__)
 
 # Konfiguracja PRAW
@@ -18,11 +17,12 @@ def index():
         return redirect('/results/' + subreddit_name)
     return render_template('index.html')
 
+# Funkcja obsługująca żądania dotyczące obrazów
 @app.route('/images/<path:path>')
 def send_image(path):
     return send_from_directory('images', path)
 
-# Funkcja pomocnicza do oznaczania etykiet sentymentu
+# Funkcja pomocnicza do oznaczania labeli sentymentu
 def get_sentiment_label(sentiment_score):
     if sentiment_score < -0.4:
         return 'Negative'
@@ -35,7 +35,7 @@ def get_sentiment_label(sentiment_score):
     else:
         return 'Positive'
 
-# Funkcja pomocnicza do oznaczania etykiet sentymentu
+# Funkcja pomocnicza do oznaczania labeli sentymentu
 def get_sub_label(subjectivity_score):
     if subjectivity_score < 0.08:
         return 'Objective'
@@ -49,6 +49,7 @@ def get_sub_label(subjectivity_score):
 # Widok wyników - strona results.html
 @app.route('/results/<subreddit_name>')
 def results(subreddit_name):
+    # Pobieramy tytuły top 10 postów z danego subreddita
     subreddit = reddit.subreddit(subreddit_name)
     top_posts = subreddit.hot(limit=10)
     top_posts_r = subreddit.hot(limit=10)
@@ -60,6 +61,7 @@ def results(subreddit_name):
     for post in top_posts_r:
         post_titles.append(post.title)
     
+    # Łączymy wszystkie tytuły postów w jednej zmiennej i robimy na nich analize sentymentu
     post_titles_string = ' '.join(post_titles)
     subjectivity_score = TextBlob(post_titles_string).sentiment.subjectivity
     sentiment_score = TextBlob(post_titles_string).sentiment.polarity
@@ -78,6 +80,7 @@ def results(subreddit_name):
 # Widok wyników (50 postów) - strona results50.html
 @app.route('/results50/<subreddit_name>')
 def results50(subreddit_name):
+    # Pobieramy tytuły top 50 postów z danego subreddita
     subreddit = reddit.subreddit(subreddit_name)
     top_posts = subreddit.hot(limit=50)
     top_posts_r = subreddit.hot(limit=50)
@@ -89,6 +92,7 @@ def results50(subreddit_name):
     for post in top_posts_r:
         post_titles.append(post.title)
     
+    # Łączymy wszystkie tytuły postów w jednej zmiennej i robimy na nich analize sentymentu
     post_titles_string = ' '.join(post_titles)
     subjectivity_score = TextBlob(post_titles_string).sentiment.subjectivity
     sentiment_score = TextBlob(post_titles_string).sentiment.polarity
@@ -104,9 +108,10 @@ def results50(subreddit_name):
                             pol_label=sentiment_pol_label,
                             sub_label=sentiment_sub_label)
 
-# Widok komentarzy - strona commentsResults.html
+# Widok i analiza sentymentu komentarzy - strona commentsResults.html
 @app.route('/commentsResults/<subreddit_name>/<post_id>')
 def comments_results(subreddit_name, post_id):
+    # Pobieramy komentarze pod postem z danym post_id za pomocą PRAW 
     post = reddit.submission(id=post_id)
     post_title = post.title
     comments = post.comments.list()
@@ -115,6 +120,7 @@ def comments_results(subreddit_name, post_id):
     subjectivity_scores = []
     comments_text = []
 
+    # Komentarze wrzucamy jako tekst do jednej zmiennej i dokonujemy analizy sentymentu
     for comment in comments:
         if isinstance(comment, praw.models.Comment):
             sentiment_score = TextBlob(comment.body).sentiment.polarity
@@ -123,6 +129,7 @@ def comments_results(subreddit_name, post_id):
             subjectivity_scores.append(subjectivity_score)
             comments_text.append(comment.body)
 
+    # Ustawiamy labele
     sentiment_pol_label = get_sentiment_label(sentiment_score)
     sentiment_sub_label = get_sub_label(subjectivity_score)
 
@@ -136,21 +143,24 @@ def comments_results(subreddit_name, post_id):
                             sub_label=sentiment_sub_label,
                             comments_text=comments_text)
 
+
+# Widok i analiza sentymentu postu - strona postResults.html
 @app.route('/postResults/<subreddit_name>/<post_id>')
 def post_results(subreddit_name, post_id):
-    # Pobierz tekst postu o danym post_id za pomocą API PRAW
+    # Pobieramy tekst postu o danym post_id za pomocą PRAW
     post = reddit.submission(id=post_id)
     post_text = post.selftext
     post_title = post.title
 
-    # Jeśli tekst posta jest pusty, użyj tytułu posta jako post_text
+    # Jeśli tekst posta jest pusty, używamy tytułu posta jako post_text
     if not post_text:
         post_text = post.title
 
-    # Przeprowadź analizę sentymentu
+    # Analiza sentymentu tekstu posta
     sentiment_score = TextBlob(post_text).sentiment.polarity
     subjectivity_score = TextBlob(post_text).sentiment.subjectivity
 
+    # Ustawiamy labele
     sentiment_pol_label = get_sentiment_label(sentiment_score)
     sentiment_sub_label = get_sub_label(subjectivity_score)
 
