@@ -19,3 +19,15 @@
 | REQ-5	| Obsługa błędów	| Aplikacja powinna wyświetlać czytelne komunikaty błędów w przypadku wystąpienia problemów z działaniem aplikacji. |	2	| Poza funkcjonalne |
 | REQ-6	| Język interfejsu	| Aplikacja powinna mieć interfejs w języku angielskim. |	3	| User Interface |
 | REQ-7 | Podział postu według kryteriów | Aplikacja powinna umożliwiać wyciągnięcie z tekstu paragrafów/tytułów lub zdjęć | 3 | Funkcjonalne |
+ 
+## 4. Architektura rozwoju
+
+| importy | Opis | Polecenie |
+| ------- | ---- | --------- |
+| Flask | moduł potrzebny do utworzenia aplikacji we frameworku flask | pip install Flask |
+| render_template | moduł potrzebny do utworzenia szablonu html w innym pliku i katalogu | pip install template-render |
+| request | moduł potrzebny do wysyłania żądań ze strony  | pip install requests |
+| redirect | moduł potrzebny do przekierowania na inną stronę. Zmienia on w tym celuu adres url | pip install redirect-streams |
+| send_from_directory | moduł potrzebny do pobierania zawartości z wybranego komponentu na sstronie | pip install Flask |
+| TextBlob | moduł potrzebny do rozpoznania języka tekstu, przetworzenia i określenia jego sentymentu | pip install Flask |
+| praw | moduł ułatwiający korzystanie z API reddita | pip install Flask |
