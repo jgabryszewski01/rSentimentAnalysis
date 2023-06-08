@@ -1,33 +1,29 @@
 ## rSentimentAnalysis
 
 
-## 1.	Charakterystyka oprogramowania 
-   * a. Nazwa skrócona: rSA 
-   * b. Nazwa pełna: Reddit Sentiment Analysis 
-   * c. Krótki opis z wskazaniem celów: rSA będzie to aplikacja umożliwiająca analizę sentymentu z serwisu www.reddit.com. Celem aplikacji jest umożliwienie użytkownikom łatwej analizy sentymentu komentarzy i postów na wszelkie tematy z naszego serwisu. Naszym motywem przewodnim jest jednak tematyka piłkarska więc funkcjonalność będzie miała optymalne zostosowanie dla fanatyków sportu.
-## 2.	Prawa autorskie 
-* a. Autorzy: Aplikacja zostanie stworzona przez Mikołaja Orzoł i Jakuba Gabryszewskiego. 
-* b. Warunki licencyjne do oprogramowania wytworzonego przez grupę: Aplikacja jest objęta licencją open-source na warunkach MIT License.
-## 3.	Specyfikacja wymagań 
+## 1.	Software Description
+   * a. Short name: rSA 
+   * b. Full name: Reddit Sentiment Analysis 
+   * c. Brief Description with Objectives: rSA will be an application that enables sentiment analysis from the website www.reddit.com. The goal of the application is to provide users with an easy way to analyze the sentiment of comments and posts on various topics. However, our main focus will be on football-related topics, so the functionality will be optimized for sports enthusiasts.
+## 2.	Copyright
+* a. Authors: Jakub Gabryszewski, Mikołaj Orzoł
+* b. Licensing terms: The application is a subject to an open-source license under the MIT License terms.
+## 3.	Requirements Specification 
  
-| Identyfikator	| Nazwa |	Opis | Priorytet | Kategoria |
+| Identifier	| Name |	Description | Priority | Category |
 | --------------|-------|------|-----------|-----------|
-| REQ-1	| Analiza sentymentu |	Aplikacja powinna umożliwiać analizę sentymentu komentarzy i postów z serwisu www.reddit.com	| 1 |	Funkcjonalne |
-| REQ-2	| Prezentacja wyników |	Aplikacja powinna prezentować wyniki analizy sentymentu. | 1	| Funkcjonalne |
-| REQ-3	| Integracja z serwisem |	Aplikacja powinna umożliwiać pobieranie komentarzy i postów z serwisu www.reddit.com |	1	| Funkcjonalne |
-| REQ-4	| Wyświetlanie popularnych klubów	| Aplikacja powinna wyświetlać popularne kluby w formie przycisków które będą przenosić na odpowiednie subreddity. Ułatwi to działania użytkownika i pozwoli oszczędzić jego czas. |	2	| Funkcjonalne |
-| REQ-5	| Obsługa błędów	| Aplikacja powinna wyświetlać czytelne komunikaty błędów w przypadku wystąpienia problemów z działaniem aplikacji. |	2	| Poza funkcjonalne |
-| REQ-6	| Język interfejsu	| Aplikacja powinna mieć interfejs w języku angielskim. |	3	| User Interface |
-| REQ-7 | Podział postu według kryteriów | Aplikacja powinna umożliwiać wyciągnięcie z tekstu paragrafów/tytułów lub zdjęć | 3 | Funkcjonalne |
+| REQ-1	| Integration with the Website |	The application should allow the retrieval of comments and posts from the website www.reddit.com. |	High	| Functional |
+| REQ-2	| Sentiment Analysis |	The application should allow sentiment analysis of posts and comments.	| High |	Functional |
+| REQ-3	| Results Presentation |	The application should present the results of sentiment analysis. | High	| Functional |
+| REQ-4	| Error Handling	| The application should display clear error messages in case of any issues with its operation. |	Medium	| Non-Functional |
+| REQ-5	| User Interface Language	| The application should have an interface in the English language. |	Medium	| User Interface |
+| REQ-6	| Displaying Popular Clubs	| The application should display popular clubs as buttons that redirect to the respective subreddits.  |	Low	| Functional |
+| REQ-7 | Post Segmentation by Criteria | The application should allow extraction of paragraphs/titles or images from the text. | Low | Functional |
  
-## 4. Architektura rozwoju
+## 4. Development Architecture
 
-| importy | Opis | Polecenie |
+| Imports | Description | Command |
 | ------- | ---- | --------- |
-| Flask | Moduł potrzebny do utworzenia aplikacji we frameworku Flask. | pip install Flask |
-| render_template | Moduł potrzebny do utworzenia szablonu html w innym pliku i katalogu. | pip install template-render |
-| request | Moduł potrzebny do wysyłania żądań ze strony.  | pip install requests |
-| redirect | Moduł potrzebny do przekierowania na inną stronę. Zmienia on w tym celu adres url. | pip install redirect-streams |
-| send_from_directory | Moduł potrzebny do pobierania zawartości z wybranego komponentu na stronie. | pip install Flask |
-| TextBlob | Moduł potrzebny do rozpoznania języka tekstu, przetworzenia i określenia jego sentymentu. | pip install Flask |
-| praw | Moduł ułatwiający korzystanie z API reddita. | pip install Flask |
+| Flask | Module required to create an application using the Flask framework. | pip install Flask |
+| TextBlob | Module required for language detection, processing, and sentiment analysis of text. | pip install textblob |
+| PRAW | Module facilitating the use of the Reddit API. | pip install praw |
